@@ -1,0 +1,15 @@
+# Скрипты парсинга — не нужны в репозитории
+scraper.py
+build_html.py
+debug*.py
+
+# Сырые данные
+reviews.json
+
+# Старый файл
+reviews.html
+
+# Системное
+.DS_Store
+__pycache__/
+*.pyc
