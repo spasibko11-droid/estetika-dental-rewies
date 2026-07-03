@@ -496,12 +496,11 @@ footer{
 }
 
 /* ─────────────────────────────────────────
-   3D ORBIT КАРУСЕЛЬ КОМАНДЫ
+   ORBIT КАРУСЕЛЬ КОМАНДЫ (JS)
 ──────────────────────────────────────────── */
 .team-section{
   padding:80px 0 100px;
   background:#f7f4fb;
-  overflow:hidden;
 }
 .team-section .section-head{
   text-align:center;
@@ -520,57 +519,24 @@ footer{
   font-size:16px;
   margin-top:10px;
 }
-
-/* Перспективная сцена */
 .team-orbit{
-  perspective:1100px;
-  perspective-origin:50% 40%;
-  height:520px;
   position:relative;
+  height:560px;
+  margin:0 auto;
+  max-width:1100px;
 }
-
-/* Наклонённая площадка */
-.team-tilt{
-  width:100%;
-  height:100%;
-  transform:rotateX(12deg);
-  transform-style:preserve-3d;
-}
-
-/* Вращающееся кольцо */
-.team-ring{
-  position:absolute;
-  top:50%;left:50%;
-  width:0;height:0;
-  transform-style:preserve-3d;
-  animation:orbit 22s linear infinite;
-}
-.team-ring:hover{ animation-play-state:paused }
-
-@keyframes orbit{
-  from{transform:rotateY(0deg)}
-  to{transform:rotateY(360deg)}
-}
-
-/* Каждая карточка на кольце */
 .sc-card{
   position:absolute;
   width:190px;
   height:285px;
-  margin:-142px -95px; /* centred */
   border-radius:18px;
   object-fit:cover;
-  box-shadow:0 20px 60px rgba(0,0,0,.22), 0 2px 8px rgba(0,0,0,.1);
-  transform:rotateY(calc(var(--i)*45deg)) translateZ(340px);
-  transition:box-shadow .3s;
-  backface-visibility:visible;
   cursor:pointer;
+  will-change:transform,opacity;
+  transition:box-shadow .3s;
 }
-
-@media(max-width:768px){
-  .team-orbit{perspective:700px;height:400px}
-  .sc-card{width:130px;height:195px;margin:-97px -65px;
-    transform:rotateY(calc(var(--i)*45deg)) translateZ(230px)}
+.sc-card:hover{
+  box-shadow:0 32px 80px rgba(137,75,160,.4)!important;
 }
 
 </style>
@@ -702,19 +668,15 @@ footer{
     <h2 id="team-h">Наша команда</h2>
     <p>Опытные специалисты, которые заботятся о вашей улыбке</p>
   </div>
-  <div class="team-orbit">
-    <div class="team-tilt">
-      <div class="team-ring" id="teamRing">
-        <img class="sc-card" style="--i:0" src="team/team-1.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:1" src="team/team-2.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:2" src="team/team-3.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:3" src="team/team-4.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:4" src="team/team-5.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:5" src="team/team-6.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:6" src="team/team-7.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-        <img class="sc-card" style="--i:7" src="team/team-8.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
-      </div>
-    </div>
+  <div class="team-orbit" id="teamOrbit">
+    <img class="sc-card" src="team/team-1.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-2.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-3.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-4.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-5.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-6.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-7.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
+    <img class="sc-card" src="team/team-8.webp" loading="lazy" alt="Специалист клиники Эстетика Дентал">
   </div>
 </section>
 
@@ -1897,6 +1859,56 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
 </script>
 
 
+
+
+<script>
+(function(){
+  var orbit = document.getElementById('teamOrbit');
+  if(!orbit) return;
+  var cards = Array.prototype.slice.call(orbit.querySelectorAll('.sc-card'));
+  var N = cards.length;
+  var angle = 0;
+  var paused = false;
+  var W = 190, H = 285; // card size
+
+  orbit.addEventListener('mouseenter', function(){ paused = true; });
+  orbit.addEventListener('mouseleave', function(){ paused = false; });
+
+  function tick(){
+    if(!paused) angle += 0.004; // rad/frame ~0.23deg
+    var ow = orbit.offsetWidth  || 900;
+    var oh = orbit.offsetHeight || 560;
+    var cx = ow / 2;
+    var cy = oh / 2;
+    var rx = ow * 0.38; // horizontal radius
+    var ry = oh * 0.30; // vertical radius (squished = perspective)
+
+    cards.forEach(function(card, i){
+      var a = angle + i * (2 * Math.PI / N);
+      var sinA = Math.sin(a);
+      var cosA = Math.cos(a);
+      // position on ellipse
+      var x = cx + rx * cosA - W / 2;
+      var y = cy + ry * sinA - H / 2;
+      // scale: bigger at front (sinA=1), smaller at back (sinA=-1)
+      var sc = 0.72 + 0.35 * (sinA + 1) / 2;   // 0.72 … 1.07
+      var op = 0.55 + 0.45 * (sinA + 1) / 2;   // 0.55 … 1.00
+      var zi = Math.round(10 + 90 * (sinA + 1) / 2);
+
+      // slight tilt of the card itself
+      var rot = cosA * 8; // ±8deg
+      card.style.left   = x.toFixed(1) + 'px';
+      card.style.top    = y.toFixed(1) + 'px';
+      card.style.transform = 'scale(' + sc.toFixed(3) + ') rotate(' + rot.toFixed(1) + 'deg)';
+      card.style.opacity   = op.toFixed(3);
+      card.style.zIndex    = zi;
+      card.style.boxShadow = '0 ' + Math.round(8+20*op) + 'px ' + Math.round(20+60*op) + 'px rgba(0,0,0,' + (0.08+0.18*op).toFixed(2) + ')';
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
 
 <script>
 (function(){
