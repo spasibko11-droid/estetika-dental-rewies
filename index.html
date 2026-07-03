@@ -544,7 +544,7 @@ footer{
   .section{padding:56px 0}
 
   /* ── TEAM ORBIT — мобильный размер ── */
-  .team-orbit{height:420px!important}
+  .team-orbit{height:380px!important;overflow:visible!important}
   .team-section{padding:60px 0 80px}
 
   /* ── FAQ ── */
@@ -592,6 +592,7 @@ footer{
   height:500px;
   margin:0 auto;
   max-width:1100px;
+  overflow:visible;
 }
 .sc-card{
   position:absolute;
@@ -1942,7 +1943,6 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
   var N = cards.length;
   var angle = 0;
   var paused = false;
-  var W = 170, H = 255;
 
   orbit.addEventListener('mouseenter', function(){ paused = true; });
   orbit.addEventListener('mouseleave', function(){ paused = false; });
@@ -1951,10 +1951,16 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
     if(!paused) angle += 0.006;
     var ow = orbit.offsetWidth  || 900;
     var oh = orbit.offsetHeight || 500;
+    var mobile = ow < 600;
+
+    // Размер карточек зависит от ширины контейнера
+    var W = mobile ? Math.round(ow * 0.28) : 170;
+    var H = Math.round(W * 1.5);
+
     var cx = ow / 2;
     var cy = oh / 2;
-    var rx = ow * 0.27;   // тесный горизонтальный радиус
-    var ry = oh * 0.22;   // сплющенный вертикальный (перспектива)
+    var rx = ow * (mobile ? 0.32 : 0.27);
+    var ry = oh * (mobile ? 0.28 : 0.22);
 
     cards.forEach(function(card, i){
       var a = angle + i * (2 * Math.PI / N);
@@ -1962,22 +1968,28 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
       var cosA = Math.cos(a);
       var x = cx + rx * cosA - W / 2;
       var y = cy + ry * sinA - H / 2;
-      var sc = 0.78 + 0.30 * (sinA + 1) / 2;   // 0.78…1.08
-      var op = 0.60 + 0.40 * (sinA + 1) / 2;   // 0.60…1.00
+      var sc = 0.75 + 0.32 * (sinA + 1) / 2;
+      var op = 0.55 + 0.45 * (sinA + 1) / 2;
       var zi = Math.round(10 + 90 * (sinA + 1) / 2);
-      var rot = cosA * 12;  // ±12deg tilt
-      card.style.left   = x.toFixed(1) + 'px';
-      card.style.top    = y.toFixed(1) + 'px';
-      card.style.width  = W + 'px';
-      card.style.height = H + 'px';
+      var rot = cosA * (mobile ? 8 : 12);
+      card.style.left      = x.toFixed(1) + 'px';
+      card.style.top       = y.toFixed(1) + 'px';
+      card.style.width     = W + 'px';
+      card.style.height    = H + 'px';
       card.style.transform = 'scale(' + sc.toFixed(3) + ') rotate(' + rot.toFixed(1) + 'deg)';
       card.style.opacity   = op.toFixed(3);
       card.style.zIndex    = zi;
-      card.style.boxShadow = '0 ' + Math.round(8+20*op) + 'px ' + Math.round(20+60*op) + 'px rgba(0,0,0,' + (0.08+0.20*op).toFixed(2) + ')';
+      card.style.boxShadow = '0 ' + Math.round(6+18*op) + 'px ' + Math.round(16+50*op) + 'px rgba(0,0,0,' + (0.08+0.18*op).toFixed(2) + ')';
     });
     requestAnimationFrame(tick);
   }
-  tick();
+
+  // Запускаем после полной загрузки страницы
+  if(document.readyState === 'complete'){
+    tick();
+  } else {
+    window.addEventListener('load', tick);
+  }
 })();
 </script>
 
