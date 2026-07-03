@@ -480,53 +480,101 @@ footer{
    RESPONSIVE  (mobile-first — ui-ux-pro-max)
 ──────────────────────────────────────────── */
 @media(max-width:768px){
-  /* Hero */
-  .hero-inner{grid-template-columns:1fr!important;min-height:auto}
-  .hero-left{padding:72px 24px 28px}
-  .hero-right{min-height:260px;padding:0 24px 48px}
-  .hero-photo-wrap{max-width:100%}
-  .hero-photo-badge{bottom:12px;left:12px;padding:8px 12px}
 
-  /* Stats */
-  .stats-card{padding:24px 16px;gap:0}
-  .stat{min-width:90px;padding:10px 12px}
-  .stat-num{font-size:28px}
+  /* ── HERO ── */
+  .hero-inner{
+    display:flex!important;
+    flex-direction:column!important;
+    min-height:auto!important;
+  }
+  .hero-left{
+    padding:64px 20px 24px;
+    order:1;
+  }
+  .hero-eyebrow{
+    font-size:10px;
+    flex-wrap:nowrap;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    max-width:100%;
+  }
+  .hero-eyebrow span{display:none}
+  .hero h1{font-size:clamp(26px,7vw,36px)}
+  .hero-sub{font-size:14px;margin-bottom:20px}
+  .hero-badges{flex-wrap:wrap;gap:8px}
+  .hbadge{font-size:11px;padding:5px 12px}
 
-  /* Tech cards */
+  .hero-right{
+    order:2;
+    min-height:auto!important;
+    padding:0 20px 40px;
+    display:flex;
+    justify-content:center;
+  }
+  .hero-photo-wrap{max-width:340px;width:100%}
+  .hero-photo-badge{
+    bottom:10px;left:10px;
+    padding:8px 12px;gap:8px;
+  }
+  .hero-photo-badge-icon{width:28px;height:28px}
+  .hero-photo-badge-text strong{font-size:11px}
+  .hero-photo-badge-text span{font-size:10px}
+
+  /* ── STATS ── */
+  .stats-wrap{margin:-20px auto 48px}
+  .stats-card{padding:20px 12px;gap:0;flex-wrap:wrap;justify-content:center}
+  .stat{min-width:100px;padding:10px 12px}
+  .stat-num{font-size:26px}
+
+  /* ── TECH ── */
   .tech-grid{grid-template-columns:1fr!important}
 
-  /* Recognition */
-  .recog{grid-template-columns:1fr;gap:32px;padding:36px 28px}
-  .recog-num{font-size:60px}
+  /* ── RECOGNITION ── */
+  .recog{grid-template-columns:1fr;gap:24px;padding:32px 20px}
+  .recog-num{font-size:56px}
 
-  /* Reviews clusters */
-  .cluster-tabs{flex-wrap:wrap;gap:8px}
-  .cluster-panel.active{grid-template-columns:1fr}
+  /* ── CLUSTERS ── */
+  .cluster-tabs{flex-wrap:wrap;gap:8px;padding:0 16px}
+  .cluster-tab{font-size:13px;padding:7px 14px}
+  .cluster-panel.active{grid-template-columns:1fr;padding:0 16px}
 
-  /* Reviews grid */
-  .reviews-grid{grid-template-columns:1fr!important}
+  /* ── REVIEWS ── */
+  .reviews-grid{grid-template-columns:1fr!important;padding:0 16px}
+  .section{padding:56px 0}
 
-  /* FAQ */
-  .faq-q{font-size:15px}
+  /* ── TEAM ORBIT → 2-col grid ── */
+  .team-orbit{
+    height:auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    padding:0 16px;
+  }
+  .sc-card{
+    position:static!important;
+    width:100%!important;
+    height:auto!important;
+    aspect-ratio:2/3;
+    transform:none!important;
+    opacity:1!important;
+    box-shadow:0 6px 20px rgba(0,0,0,.12)!important;
+  }
 
-  /* Footer */
+  /* ── FAQ ── */
+  .faq-q{font-size:14px;padding:14px 16px}
+
+  /* ── FOOTER ── */
   .footer-inner{grid-template-columns:1fr}
   .footer-col h4{margin-top:20px}
-
-  /* Team orbit → простая сетка */
-  .team-orbit{height:auto!important;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 16px}
-  .sc-card{position:static!important;width:100%!important;height:auto!important;
-    aspect-ratio:2/3;transform:none!important;opacity:1!important;
-    box-shadow:0 8px 24px rgba(0,0,0,.12)!important}
 }
+
 @media(max-width:480px){
-  .stats-card{flex-direction:column}
-  .stat{border-right:none;border-bottom:1px solid var(--border)}
+  .stats-card{flex-direction:column;align-items:stretch}
+  .stat{border-right:none!important;border-bottom:1px solid var(--border)}
   .stat:last-child{border-bottom:none}
-  .hero h1{font-size:28px}
-  .hero-badges{gap:6px}
-  .hbadge{font-size:11px;padding:5px 10px}
-  .team-orbit{grid-template-columns:repeat(2,1fr);gap:10px}
+  .hero h1{font-size:26px}
+  .recog-num{font-size:48px}
 }
 
 /* ─────────────────────────────────────────
