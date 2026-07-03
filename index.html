@@ -480,19 +480,53 @@ footer{
    RESPONSIVE  (mobile-first — ui-ux-pro-max)
 ──────────────────────────────────────────── */
 @media(max-width:768px){
-  .hero{padding:80px 20px 100px}
+  /* Hero */
+  .hero-inner{grid-template-columns:1fr!important;min-height:auto}
+  .hero-left{padding:72px 24px 28px}
+  .hero-right{min-height:260px;padding:0 24px 48px}
+  .hero-photo-wrap{max-width:100%}
+  .hero-photo-badge{bottom:12px;left:12px;padding:8px 12px}
+
+  /* Stats */
   .stats-card{padding:24px 16px;gap:0}
   .stat{min-width:90px;padding:10px 12px}
   .stat-num{font-size:28px}
+
+  /* Tech cards */
+  .tech-grid{grid-template-columns:1fr!important}
+
+  /* Recognition */
   .recog{grid-template-columns:1fr;gap:32px;padding:36px 28px}
   .recog-num{font-size:60px}
+
+  /* Reviews clusters */
+  .cluster-tabs{flex-wrap:wrap;gap:8px}
+  .cluster-panel.active{grid-template-columns:1fr}
+
+  /* Reviews grid */
+  .reviews-grid{grid-template-columns:1fr!important}
+
+  /* FAQ */
+  .faq-q{font-size:15px}
+
+  /* Footer */
   .footer-inner{grid-template-columns:1fr}
   .footer-col h4{margin-top:20px}
+
+  /* Team orbit → простая сетка */
+  .team-orbit{height:auto!important;display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:0 16px}
+  .sc-card{position:static!important;width:100%!important;height:auto!important;
+    aspect-ratio:2/3;transform:none!important;opacity:1!important;
+    box-shadow:0 8px 24px rgba(0,0,0,.12)!important}
 }
 @media(max-width:480px){
   .stats-card{flex-direction:column}
   .stat{border-right:none;border-bottom:1px solid var(--border)}
   .stat:last-child{border-bottom:none}
+  .hero h1{font-size:28px}
+  .hero-badges{gap:6px}
+  .hbadge{font-size:11px;padding:5px 10px}
+  .team-orbit{grid-template-columns:repeat(2,1fr);gap:10px}
 }
 
 /* ─────────────────────────────────────────
