@@ -494,6 +494,109 @@ footer{
   .stat{border-right:none;border-bottom:1px solid var(--border)}
   .stat:last-child{border-bottom:none}
 }
+
+/* ─────────────────────────────────────────
+   КАРУСЕЛЬ КОМАНДЫ
+──────────────────────────────────────────── */
+.team-section{
+  padding:80px 0;
+  background:var(--surface-1);
+  overflow:hidden;
+}
+.team-section .section-head{
+  text-align:center;
+  margin-bottom:48px;
+  padding:0 24px;
+}
+.team-section .section-head h2{
+  font-family:var(--font-head);
+  font-size:clamp(28px,3vw,42px);
+  font-weight:900;
+  color:var(--text-1);
+  letter-spacing:-.02em;
+}
+.team-section .section-head p{
+  color:var(--text-2);
+  font-size:16px;
+  margin-top:10px;
+}
+
+/* Карусель */
+.team-track-wrap{
+  position:relative;
+}
+.team-track{
+  display:flex;
+  gap:20px;
+  padding:12px 60px 24px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.team-track::-webkit-scrollbar{display:none}
+
+.team-card{
+  flex:0 0 260px;
+  scroll-snap-align:start;
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.10);
+  transition:transform .3s, box-shadow .3s;
+  cursor:pointer;
+  background:var(--surface-2);
+  aspect-ratio:2/3;
+}
+.team-card:hover{
+  transform:translateY(-6px) scale(1.02);
+  box-shadow:0 16px 48px rgba(137,75,160,.25);
+}
+.team-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+
+/* Кнопки навигации */
+.team-nav{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:44px;height:44px;
+  border-radius:50%;
+  background:var(--brand);
+  border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(137,75,160,.4);
+  transition:background .2s, transform .2s;
+  z-index:2;
+}
+.team-nav:hover{background:var(--brand-dark);transform:translateY(-50%) scale(1.1)}
+.team-nav svg{fill:#fff}
+.team-nav-prev{left:12px}
+.team-nav-next{right:12px}
+
+/* Точки */
+.team-dots{
+  display:flex;gap:8px;justify-content:center;margin-top:20px;
+}
+.team-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:rgba(137,75,160,.25);
+  border:none;cursor:pointer;transition:all .25s;padding:0;
+}
+.team-dot.active{
+  background:var(--brand);
+  width:24px;border-radius:4px;
+}
+
+@media(max-width:768px){
+  .team-track{padding:12px 24px 20px;gap:14px}
+  .team-card{flex:0 0 200px}
+  .team-nav{display:none}
+}
+
 </style>
 </head>
 <body>
@@ -616,6 +719,43 @@ footer{
     </div>
   </div>
 </section>
+
+<!-- ══ КОМАНДА ══ -->
+<section class="team-section" id="team" aria-labelledby="team-h">
+  <div class="section-head">
+    <h2 id="team-h">Наша команда</h2>
+    <p>Опытные специалисты, которые заботятся о вашей улыбке</p>
+  </div>
+  <div class="team-track-wrap">
+    <button class="team-nav team-nav-prev" aria-label="Назад" onclick="teamScroll(-1)">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="team-track" id="teamTrack">
+      <div class="team-card"><img src="team/team-1.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-2.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-3.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-4.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-5.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-6.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-7.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+      <div class="team-card"><img src="team/team-8.webp" alt="Врач клиники Эстетика Дентал" loading="lazy"></div>
+    </div>
+    <button class="team-nav team-nav-next" aria-label="Вперёд" onclick="teamScroll(1)">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+  <div class="team-dots" id="teamDots">
+    <button class="team-dot active" onclick="teamGo(0)"></button>
+    <button class="team-dot" onclick="teamGo(1)"></button>
+    <button class="team-dot" onclick="teamGo(2)"></button>
+    <button class="team-dot" onclick="teamGo(3)"></button>
+    <button class="team-dot" onclick="teamGo(4)"></button>
+    <button class="team-dot" onclick="teamGo(5)"></button>
+    <button class="team-dot" onclick="teamGo(6)"></button>
+    <button class="team-dot" onclick="teamGo(7)"></button>
+  </div>
+</section>
+
 
 <!-- ══ ПРИЗНАНИЕ ══ -->
 <section class="section" id="recognition" aria-labelledby="recog-h">
@@ -1792,6 +1932,31 @@ const obs = new IntersectionObserver(entries => {
   });
 }, {threshold: 0.1});
 document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
+</script>
+
+
+<script>
+(function(){
+  var track = document.getElementById('teamTrack');
+  var dots = document.querySelectorAll('.team-dot');
+  if(!track) return;
+
+  var cardW = 280; // 260px + 20px gap
+
+  function updateDots(){
+    var idx = Math.round(track.scrollLeft / cardW);
+    dots.forEach(function(d,i){ d.classList.toggle('active', i===idx); });
+  }
+
+  track.addEventListener('scroll', updateDots, {passive:true});
+
+  window.teamScroll = function(dir){
+    track.scrollBy({left: dir * cardW * 2, behavior:'smooth'});
+  };
+  window.teamGo = function(idx){
+    track.scrollTo({left: idx * cardW, behavior:'smooth'});
+  };
+})();
 </script>
 
 <script>
