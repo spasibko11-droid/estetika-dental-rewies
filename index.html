@@ -77,10 +77,10 @@ a{color:var(--brand);text-decoration:none}
 .hero-filters{position:absolute;width:0;height:0}
 
 /* Анимации mesh-блобов */
-@keyframes blob1{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.15)}66%{transform:translate(-25px,35px) scale(0.9)}}
-@keyframes blob2{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(-35px,25px) scale(0.85)}66%{transform:translate(45px,-20px) scale(1.1)}}
-@keyframes blob3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(30px,40px) scale(1.2)}}
-@keyframes blob4{0%,100%{transform:translate(0,0) scale(1)}40%{transform:translate(-40px,-35px) scale(0.88)}80%{transform:translate(20px,30px) scale(1.12)}}
+33%{transform:translate(40px,-30px) scale(1.15)}66%{transform:translate(-25px,35px) scale(0.9)}}
+33%{transform:translate(-35px,25px) scale(0.85)}66%{transform:translate(45px,-20px) scale(1.1)}}
+50%{transform:translate(30px,40px) scale(1.2)}}
+40%{transform:translate(-40px,-35px) scale(0.88)}80%{transform:translate(20px,30px) scale(1.12)}}
 
 .hero{
   position:relative;overflow:hidden;
@@ -93,11 +93,11 @@ a{color:var(--brand);text-decoration:none}
 }
 
 /* Mesh-градиент: анимированные блобы */
-.hero-blob{position:absolute;border-radius:50%;pointer-events:none;filter:blur(72px);}
-.hero-blob-1{width:600px;height:600px;background:radial-gradient(circle,rgba(137,75,160,.7),transparent 70%);top:-100px;left:-100px;animation:blob1 12s ease-in-out infinite!important;}
-.hero-blob-2{width:500px;height:500px;background:radial-gradient(circle,rgba(62,25,80,.9),transparent 70%);bottom:-80px;left:20%;animation:blob2 15s ease-in-out infinite!important;}
-.hero-blob-3{width:400px;height:400px;background:radial-gradient(circle,rgba(190,120,220,.5),transparent 70%);top:10%;right:40%;animation:blob3 10s ease-in-out infinite!important;}
-.hero-blob-4{width:350px;height:350px;background:radial-gradient(circle,rgba(94,45,117,.8),transparent 70%);bottom:0;right:45%;animation:blob4 13s ease-in-out infinite!important;}
+.hero-blob{position:absolute;border-radius:50%;pointer-events:none;will-change:transform;}
+.hero-blob-1{width:700px;height:700px;background:radial-gradient(circle,rgba(160,80,220,.65),transparent 65%);top:-150px;left:-150px;filter:blur(80px);}
+.hero-blob-2{width:600px;height:600px;background:radial-gradient(circle,rgba(80,20,160,.85),transparent 65%);bottom:-120px;left:15%;filter:blur(90px);}
+.hero-blob-3{width:500px;height:500px;background:radial-gradient(circle,rgba(220,100,255,.45),transparent 60%);top:5%;right:35%;filter:blur(70px);}
+.hero-blob-4{width:450px;height:450px;background:radial-gradient(circle,rgba(100,30,180,.75),transparent 60%);bottom:-50px;right:40%;filter:blur(85px);}
 
 /* Левая колонка — текст */
 .hero-left{
@@ -1790,6 +1790,32 @@ const obs = new IntersectionObserver(entries => {
   });
 }, {threshold: 0.1});
 document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
+</script>
+
+<script>
+(function(){
+  var blobs = document.querySelectorAll('.hero-blob');
+  if (!blobs.length) return;
+  var t = 0;
+  var configs = [
+    {ax:55, ay:45, px:0.7, py:0.5, sx:0.12},
+    {ax:-50, ay:40, px:0.5, py:0.8, sx:-0.1},
+    {ax:40, ay:-55, px:0.9, py:0.6, sx:0.08},
+    {ax:-45, ay:50, px:0.6, py:0.9, sx:-0.09}
+  ];
+  function tick(){
+    t += 0.005;
+    blobs.forEach(function(b, i){
+      var c = configs[i];
+      var x = Math.sin(t * c.px) * c.ax;
+      var y = Math.cos(t * c.py) * c.ay;
+      var s = 1 + Math.sin(t * (i+1) * 0.4) * c.sx;
+      b.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+s.toFixed(3)+')';
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
 </script>
 </body>
 </html>
