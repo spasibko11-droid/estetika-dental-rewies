@@ -521,7 +521,7 @@ footer{
 }
 .team-orbit{
   position:relative;
-  height:560px;
+  height:500px;
   margin:0 auto;
   max-width:1100px;
 }
@@ -1869,40 +1869,38 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
   var N = cards.length;
   var angle = 0;
   var paused = false;
-  var W = 190, H = 285; // card size
+  var W = 170, H = 255;
 
   orbit.addEventListener('mouseenter', function(){ paused = true; });
   orbit.addEventListener('mouseleave', function(){ paused = false; });
 
   function tick(){
-    if(!paused) angle += 0.004; // rad/frame ~0.23deg
+    if(!paused) angle += 0.006;
     var ow = orbit.offsetWidth  || 900;
-    var oh = orbit.offsetHeight || 560;
+    var oh = orbit.offsetHeight || 500;
     var cx = ow / 2;
     var cy = oh / 2;
-    var rx = ow * 0.38; // horizontal radius
-    var ry = oh * 0.30; // vertical radius (squished = perspective)
+    var rx = ow * 0.27;   // тесный горизонтальный радиус
+    var ry = oh * 0.22;   // сплющенный вертикальный (перспектива)
 
     cards.forEach(function(card, i){
       var a = angle + i * (2 * Math.PI / N);
       var sinA = Math.sin(a);
       var cosA = Math.cos(a);
-      // position on ellipse
       var x = cx + rx * cosA - W / 2;
       var y = cy + ry * sinA - H / 2;
-      // scale: bigger at front (sinA=1), smaller at back (sinA=-1)
-      var sc = 0.72 + 0.35 * (sinA + 1) / 2;   // 0.72 … 1.07
-      var op = 0.55 + 0.45 * (sinA + 1) / 2;   // 0.55 … 1.00
+      var sc = 0.78 + 0.30 * (sinA + 1) / 2;   // 0.78…1.08
+      var op = 0.60 + 0.40 * (sinA + 1) / 2;   // 0.60…1.00
       var zi = Math.round(10 + 90 * (sinA + 1) / 2);
-
-      // slight tilt of the card itself
-      var rot = cosA * 8; // ±8deg
+      var rot = cosA * 12;  // ±12deg tilt
       card.style.left   = x.toFixed(1) + 'px';
       card.style.top    = y.toFixed(1) + 'px';
+      card.style.width  = W + 'px';
+      card.style.height = H + 'px';
       card.style.transform = 'scale(' + sc.toFixed(3) + ') rotate(' + rot.toFixed(1) + 'deg)';
       card.style.opacity   = op.toFixed(3);
       card.style.zIndex    = zi;
-      card.style.boxShadow = '0 ' + Math.round(8+20*op) + 'px ' + Math.round(20+60*op) + 'px rgba(0,0,0,' + (0.08+0.18*op).toFixed(2) + ')';
+      card.style.boxShadow = '0 ' + Math.round(8+20*op) + 'px ' + Math.round(20+60*op) + 'px rgba(0,0,0,' + (0.08+0.20*op).toFixed(2) + ')';
     });
     requestAnimationFrame(tick);
   }
