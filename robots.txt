@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://esteticadental-reviews.ru/sitemap.xml
+Host: esteticadental-reviews.ru
