@@ -82,15 +82,9 @@ a{color:var(--brand);text-decoration:none}
 50%{transform:translate(30px,40px) scale(1.2)}}
 40%{transform:translate(-40px,-35px) scale(0.88)}80%{transform:translate(20px,30px) scale(1.12)}}
 
-@keyframes gradShift{
-  0%,100%{background-position:0% 50%}
-  50%{background-position:100% 50%}
-}
 .hero{
   position:relative;overflow:hidden;
-  background:linear-gradient(-45deg,#0d0020,#1a0533,#3a1060,#894BA0,#5e2d75,#1a0533,#0d0020);
-  background-size:400% 400%;
-  animation:gradShift 10s ease infinite;
+  background:#1a0533;
   min-height:680px;
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -519,11 +513,8 @@ footer{
     </defs>
   </svg>
 
-  <!-- Анимированный mesh-градиент -->
-  <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
-  <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
-  <div class="hero-blob hero-blob-3" aria-hidden="true"></div>
-  <div class="hero-blob hero-blob-4" aria-hidden="true"></div>
+  <!-- Canvas mesh-анимация -->
+  <canvas id="hero-canvas" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;opacity:.9;"></canvas>
 
   <!-- Левая колонка: текст -->
   <div class="hero-left">
@@ -1800,27 +1791,57 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
 
 <script>
 (function(){
-  var blobs = document.querySelectorAll('.hero-blob');
-  if (!blobs.length) return;
+  var canvas = document.getElementById('hero-canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
   var t = 0;
-  var configs = [
-    {ax:55, ay:45, px:0.7, py:0.5, sx:0.12},
-    {ax:-50, ay:40, px:0.5, py:0.8, sx:-0.1},
-    {ax:40, ay:-55, px:0.9, py:0.6, sx:0.08},
-    {ax:-45, ay:50, px:0.6, py:0.9, sx:-0.09}
-  ];
-  function tick(){
-    t += 0.005;
-    blobs.forEach(function(b, i){
-      var c = configs[i];
-      var x = Math.sin(t * c.px) * c.ax;
-      var y = Math.cos(t * c.py) * c.ay;
-      var s = 1 + Math.sin(t * (i+1) * 0.4) * c.sx;
-      b.style.transform = 'translate('+x.toFixed(1)+'px,'+y.toFixed(1)+'px) scale('+s.toFixed(3)+')';
-    });
-    requestAnimationFrame(tick);
+
+  function resize(){
+    canvas.width = canvas.offsetWidth || canvas.parentElement.offsetWidth || 1200;
+    canvas.height = canvas.offsetHeight || canvas.parentElement.offsetHeight || 680;
   }
-  tick();
+  resize();
+  window.addEventListener('resize', resize);
+
+  function blob(cx,cy,r,colA,colB){
+    var g = ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+    g.addColorStop(0, colA);
+    g.addColorStop(1, colB);
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+  }
+
+  function draw(){
+    t += 0.008;
+    var w = canvas.width, h = canvas.height;
+
+    // Тёмный фон
+    ctx.fillStyle = '#1a0533';
+    ctx.fillRect(0,0,w,h);
+
+    // Блоб 1 — крупный, смещается по горизонтали
+    var b1x = w*0.15 + Math.sin(t*0.7)*150;
+    var b1y = h*0.4  + Math.cos(t*0.5)*100;
+    blob(b1x, b1y, w*0.45, 'rgba(137,75,160,0.75)', 'transparent');
+
+    // Блоб 2 — средний, по диагонали
+    var b2x = w*0.5  + Math.cos(t*0.9)*130;
+    var b2y = h*0.6  + Math.sin(t*0.6)*90;
+    blob(b2x, b2y, w*0.35, 'rgba(94,45,117,0.65)', 'transparent');
+
+    // Блоб 3 — яркий акцент, быстрее
+    var b3x = w*0.75 + Math.sin(t*1.1)*100;
+    var b3y = h*0.25 + Math.cos(t*0.8)*80;
+    blob(b3x, b3y, w*0.3, 'rgba(170,90,210,0.5)', 'transparent');
+
+    // Блоб 4 — нижний
+    var b4x = w*0.35 + Math.cos(t*0.6)*120;
+    var b4y = h*0.85 + Math.sin(t*0.9)*60;
+    blob(b4x, b4y, w*0.28, 'rgba(80,30,110,0.6)', 'transparent');
+
+    requestAnimationFrame(draw);
+  }
+  draw();
 })();
 </script>
 </body>
