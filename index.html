@@ -477,6 +477,165 @@ footer{
 .footer-keywords{font-size:11px;opacity:.35;margin-top:8px;line-height:1.7}
 
 /* ─────────────────────────────────────────
+   ПРЕССА
+──────────────────────────────────────────── */
+.press-wrap{
+  background:var(--surface);
+  border-radius:var(--radius-xl);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-md);
+  overflow:hidden;
+}
+.press-header{
+  background:linear-gradient(135deg,#1a2a5e 0%,#2d4a8a 100%);
+  padding:24px 32px;
+  display:flex;align-items:center;gap:20px;
+}
+.press-logo-badge{
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:var(--radius-sm);
+  padding:10px 18px;
+  text-align:center;
+  flex-shrink:0;
+}
+.press-logo-name{
+  font-family:var(--font-head);
+  font-size:13px;font-weight:800;
+  color:#fff;line-height:1.25;
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.press-logo-sub{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
+.press-header-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-bottom:5px}
+.press-header-meta{font-size:13px;color:rgba(255,255,255,.6)}
+.press-body{padding:32px}
+.press-occasion{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--brand-pale);color:var(--brand);
+  border-radius:20px;padding:6px 14px;font-size:12px;font-weight:600;
+  margin-bottom:24px;
+}
+.press-quote{
+  font-size:15px;line-height:1.82;color:var(--text-2);
+  border-left:3px solid var(--brand);
+  padding-left:20px;margin-bottom:24px;
+  font-style:italic;
+}
+.press-dialog{
+  background:var(--brand-pale);
+  border-radius:var(--radius-md);
+  padding:20px 24px;margin-bottom:24px;
+}
+.press-dialog-q{
+  font-size:13.5px;font-weight:700;color:var(--brand);
+  margin-bottom:12px;font-style:italic;
+}
+.press-dialog-a{font-size:14.5px;line-height:1.82;color:var(--text-2)}
+.press-byline{font-size:13px;color:var(--text-3);font-style:italic;margin-bottom:0}
+.press-byline strong{color:var(--brand);font-style:normal}
+.press-comment{
+  background:linear-gradient(135deg,#f0f4ff,#e8eeff);
+  border-radius:var(--radius-md);
+  padding:20px 24px;margin-top:24px;
+  border-left:3px solid #2d4a8a;
+}
+.press-comment-head{font-size:13px;font-weight:700;color:#1a2a5e;margin-bottom:8px}
+.press-comment-text{font-size:14px;line-height:1.78;color:#2d3a5e;font-style:italic}
+.press-photos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:28px}
+.press-photo-team{grid-column:1/-1;border-radius:var(--radius-md);overflow:hidden;max-height:320px}
+.press-photo-team img{width:100%;height:100%;object-fit:cover;display:block}
+.press-photo-cut{border-radius:var(--radius-sm);overflow:hidden}
+.press-photo-cut img{width:100%;height:220px;object-fit:cover;object-position:top;display:block;transition:transform .3s var(--ease-out)}
+.press-photo-cut:hover img{transform:scale(1.03)}
+.press-photos-label{font-size:11px;color:var(--text-3);text-align:center;margin-top:10px;letter-spacing:.05em}
+@media(max-width:600px){.press-photos{grid-template-columns:1fr 1fr}.press-photo-team{max-height:200px}}
+
+/* ─────────────────────────────────────────
+   WE PRO DENT — экспертная публикация
+──────────────────────────────────────────── */
+.wpd-wrap{
+  border-radius:var(--radius-lg);
+  overflow:hidden;
+  box-shadow:var(--shadow-md);
+  background:var(--surface);
+  border:1px solid var(--border);
+}
+.wpd-header{
+  background:linear-gradient(135deg,#0d3b5e 0%,#1a5c8a 60%,#0e4a70 100%);
+  padding:28px 32px;
+  display:flex;align-items:center;gap:20px;
+}
+.wpd-logo-badge{
+  flex-shrink:0;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--radius-sm);
+  padding:10px 16px;
+  text-align:center;
+  min-width:110px;
+}
+.wpd-logo-name{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;letter-spacing:.02em}
+.wpd-logo-sub{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.12em;margin-top:4px;text-transform:uppercase}
+.wpd-header-title{font-family:var(--font-head);font-size:18px;font-weight:700;color:#fff;margin-bottom:5px}
+.wpd-header-meta{font-size:13px;color:rgba(255,255,255,.6)}
+.wpd-body{padding:32px}
+.wpd-author{
+  display:flex;align-items:center;gap:16px;
+  margin-bottom:24px;
+  padding-bottom:24px;
+  border-bottom:1px solid var(--border);
+}
+.wpd-author-photo{
+  width:64px;height:64px;border-radius:50%;
+  object-fit:cover;object-position:top;
+  flex-shrink:0;
+  border:2px solid var(--brand);
+}
+.wpd-author-name{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--text-1);margin-bottom:2px}
+.wpd-author-role{font-size:13px;color:var(--text-3)}
+.wpd-quote{
+  font-family:var(--font-head);
+  font-size:17px;font-weight:600;line-height:1.55;
+  color:var(--brand-dark);
+  border-left:3px solid var(--brand);
+  padding:4px 0 4px 20px;
+  margin-bottom:20px;
+  font-style:italic;
+}
+.wpd-intro{font-size:15px;line-height:1.75;color:var(--text-2);margin-bottom:28px}
+.wpd-theses{
+  display:grid;grid-template-columns:1fr 1fr;gap:12px;
+  margin-bottom:32px;
+}
+@media(max-width:600px){.wpd-theses{grid-template-columns:1fr}}
+.wpd-thesis{
+  background:var(--brand-pale);
+  border:1px solid rgba(137,75,160,.12);
+  border-radius:var(--radius-md);
+  padding:16px 18px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.wpd-thesis-num{
+  flex-shrink:0;
+  width:28px;height:28px;border-radius:50%;
+  background:var(--brand);
+  color:#fff;font-family:var(--font-head);font-size:12px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;
+}
+.wpd-thesis-text{font-size:13.5px;line-height:1.65;color:var(--text-2)}
+.wpd-cta{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,#0d3b5e,#1a5c8a);
+  color:#fff;font-family:var(--font-head);font-size:14px;font-weight:600;
+  padding:14px 28px;border-radius:var(--radius-md);
+  text-decoration:none;letter-spacing:.02em;
+  transition:opacity .2s,transform .2s var(--ease-out);
+}
+.wpd-cta:hover{opacity:.88;transform:translateY(-1px)}
+.wpd-cta svg{transition:transform .2s var(--ease-out)}
+.wpd-cta:hover svg{transform:translateX(3px)}
+
+/* ─────────────────────────────────────────
    RESPONSIVE  (mobile-first — ui-ux-pro-max)
 ──────────────────────────────────────────── */
 @media(max-width:768px){
@@ -1807,6 +1966,129 @@ footer{
       </header>
       <p class="rt">Приходили на консультацию с ребёнком 1,7 мес.,всё очень понравилось, приятная атмосфера, есть детский уголок, очень вежливая администратор. Спасибо врачу Кульбачук К.Д. провела осмотр,дала рекомендации . В дальнейшем конечно будем пользоваться услугами этой клиники!</p>
     </article></div>
+</section>
+
+<!-- ══ ПРЕССА ══ -->
+<section class="section" id="press" aria-labelledby="press-h">
+  <p class="section-eyebrow">В прессе о нас</p>
+  <h2 id="press-h">О нас написали в газете «Одинцовская Неделя»</h2>
+  <p class="section-desc">На фестивале АРДИП наша команда так ярко проявила себя, что нас окружили фотографы и журналисты.</p>
+
+  <div class="press-wrap">
+    <div class="press-header">
+      <div class="press-logo-badge">
+        <div class="press-logo-name">Одинцовская<br>Неделя</div>
+        <div class="press-logo-sub">Газета</div>
+      </div>
+      <div>
+        <div class="press-header-title">Мастер-класс «Юный стоматолог»</div>
+        <div class="press-header-meta">Фестиваль АРДИП · Одинцово · Специальный репортаж</div>
+      </div>
+    </div>
+    <div class="press-body">
+      <div class="press-occasion">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Фестиваль АРДИП в Одинцово
+      </div>
+
+      <p class="press-quote">
+        «Когда из Голицыно к детям приезжают настоящие зубные феи и проводят мастер-класс "Юный стоматолог", это уже интересно и здорово. Даже взрослые, согласитесь, едва ли имели шанс рассмотреть образцы зубов настолько пристально и столь выразительных масштабов. А наши гости сегодня не просто посетители — они получили реальную возможность хоть раз в жизни самостоятельно поставить пломбу. И десятки детей уйдут сегодня с этого праздника, умея делать это вполне качественно.»
+      </p>
+
+      <div class="press-dialog">
+        <div class="press-dialog-q">— Это просто интересное развлечение или что-то большее?</div>
+        <div class="press-dialog-a">
+          — Наша задумка чуть сложнее. Мы используем такую игру с цветными пломбочками, чтобы адаптировать маленьких участников мастер-класса к предстоящему лечению. Это своего рода психологический практический тренинг, позволяющий незаметно избавиться от множества страхов.<br><br>
+          Мы рисуем на зубах яркими фрагментами машинку, цветочек или какого-то героя, которого выбрал сам наш ученик. Таким образом детки учатся видеть во враче-стоматологе не доктора, который наверняка сделает им больно, а художника, к которому они приходят в гости.<br><br>
+          После таких занятий родителям не нужно убеждать ребёнка, что в кресле дантиста будет немножко больно. Дети уже сами исследовали зубы, увидели, что в процессе работы с ними нет ничего сложного — и попробовав делать картинку пломбочками, они приходят к тем докторам, которых уже запомнили как волшебниц, и просят просто сделать в их зубках яркое и неповторимое украшение.
+        </div>
+      </div>
+
+      <p class="press-byline">— <strong>Асмик Акопян</strong>, представитель Эстетика Дентал, Голицыно</p>
+
+      <div class="press-comment">
+        <div class="press-comment-head">Комментарий: Оксана Пушкина, депутат Государственной Думы</div>
+        <div class="press-comment-text">«"АРДИП" — моё детище, которое сформировалось при большой поддержке губернатора Андрея Юрьевича Воробьёва. И сегодня мне радостно от того, что наши детишки не чувствуют себя ущемлёнными, как это было совсем недавно и как это до сих пор есть в разных уголках России.»</div>
+      </div>
+
+      <div class="press-photos">
+        <div class="press-photo-team">
+          <img src="img/ardip-team.jpg" alt="Команда Эстетика Дентал на VIII Региональном фестивале АРДИП «В будущее без границ»" loading="lazy">
+        </div>
+        <div class="press-photo-cut">
+          <img src="img/gazeta-1.jpg" alt="Вырезка из газеты Одинцовская Неделя — страница 1" loading="lazy">
+        </div>
+        <div class="press-photo-cut">
+          <img src="img/gazeta-2.jpg" alt="Вырезка из газеты Одинцовская Неделя — страница 2" loading="lazy">
+        </div>
+        <div class="press-photo-cut">
+          <img src="img/gazeta-3.jpg" alt="Вырезка из газеты Одинцовская Неделя — страница 3" loading="lazy">
+        </div>
+      </div>
+      <p class="press-photos-label">VIII Региональный Фестиваль АРДИП «В будущее без границ» · Одинцово · Вырезки из газеты «Одинцовская Неделя»</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ WE PRO DENT ══ -->
+<section class="section" id="weprodent" aria-labelledby="wpd-h">
+  <p class="section-eyebrow">Экспертная публикация</p>
+  <h2 id="wpd-h">Эллина Ермакова — о будущем стоматологии 2026</h2>
+  <p class="section-desc">Владелец и генеральный директор «Эстетика Дентал» — спикер федерального профессионального портала We Pro Dent.</p>
+
+  <div class="wpd-wrap">
+    <div class="wpd-header">
+      <div class="wpd-logo-badge">
+        <div class="wpd-logo-name">We Pro Dent</div>
+        <div class="wpd-logo-sub">Портал</div>
+      </div>
+      <div>
+        <div class="wpd-header-title">Будущее стоматологии 2026: тренды, модели, пациенты</div>
+        <div class="wpd-header-meta">Экспертная статья · weprodent.ru · 2026</div>
+      </div>
+    </div>
+    <div class="wpd-body">
+      <div class="wpd-author">
+        <img class="wpd-author-photo" src="img/ermakova.webp" alt="Эллина Ермакова">
+        <div>
+          <div class="wpd-author-name">Эллина Ермакова</div>
+          <div class="wpd-author-role">Владелец и генеральный директор · Эстетика Дентал, Голицыно</div>
+        </div>
+      </div>
+
+      <blockquote class="wpd-quote">
+        «Остаются те, кто думает не как врач и не как бухгалтер, а как архитектор будущего медицинского сервиса.»
+      </blockquote>
+
+      <p class="wpd-intro">
+        В материале для федерального портала стоматологов We Pro Dent Эллина анализирует, что меняется на рынке в 2026 году: какие клиники выживут, почему «универсальная клиника для всех» уходит в прошлое — и что на самом деле является настоящим богатством в стоматологии.
+      </p>
+
+      <div class="wpd-theses">
+        <div class="wpd-thesis">
+          <div class="wpd-thesis-num">1</div>
+          <div class="wpd-thesis-text">Три вида богатства клиники — доверие и репутация, система и команда, материальные активы. Побеждает первый</div>
+        </div>
+        <div class="wpd-thesis">
+          <div class="wpd-thesis-num">2</div>
+          <div class="wpd-thesis-text">Вместо обезличенной массы — «племена» пациентов: тревожные, эстетические, рациональные. Универсальность больше не работает</div>
+        </div>
+        <div class="wpd-thesis">
+          <div class="wpd-thesis-num">3</div>
+          <div class="wpd-thesis-text">Патернализм врача уходит — побеждают клиники, умеющие работать с тревогой и объяснять спокойно</div>
+        </div>
+        <div class="wpd-thesis">
+          <div class="wpd-thesis-num">4</div>
+          <div class="wpd-thesis-text">Знания дешевеют, навыки дорожают. Клиники становятся образовательными платформами — и это конкурентное преимущество</div>
+        </div>
+      </div>
+
+      <a class="wpd-cta" href="https://weprodent.ru/articles/budushhee-stomatologii-2026-trendy-modeli" target="_blank" rel="noopener noreferrer">
+        Читать статью полностью
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </div>
 </section>
 
 <!-- ══ FAQ ══ -->
