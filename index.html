@@ -712,42 +712,42 @@ footer{
 .skull-viewer{
   position:relative;
   border-top:1px solid rgba(137,75,160,.25);
-  height:240px;
+  height:300px;
   cursor:grab;
   user-select:none;
   overflow:hidden;
   background:#000;
+  border-radius:0 0 var(--radius-xl) var(--radius-xl);
 }
 .skull-viewer:active{cursor:grabbing}
 .skull-inner-wrap{
-  position:relative;width:100%;height:100%;
-  transform-style:preserve-3d;
+  position:absolute;inset:0;
   will-change:transform;
 }
 .skull-img{
   position:absolute;inset:0;
   width:100%;height:100%;
-  object-fit:cover;object-position:center 30%;
+  object-fit:cover;object-position:center 55%;
   display:block;
   pointer-events:none;
 }
-.skull-img-color{opacity:0;transition:opacity 0s}
+.skull-img-color{opacity:0}
 .skull-hint{
   position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
-  background:rgba(0,0,0,.55);
-  color:rgba(255,255,255,.7);
-  font-size:12px;letter-spacing:.06em;
-  padding:5px 14px;border-radius:20px;
+  background:rgba(0,0,0,.6);
+  color:rgba(255,255,255,.75);
+  font-size:12px;letter-spacing:.05em;
+  padding:6px 16px;border-radius:20px;
   display:flex;align-items:center;gap:7px;
   pointer-events:none;
-  transition:opacity .4s;
+  transition:opacity .6s;
+  white-space:nowrap;
 }
-.skull-hint svg{opacity:.7}
 @media(max-width:768px){
   .diagnocat-inner{grid-template-columns:1fr}
   .diagnocat-right{height:260px}
   .diagnocat-left{padding:32px 24px 100px}
-  .skull-viewer{height:170px}
+  .skull-viewer{height:200px}
   .diagnocat-bot{width:70px;bottom:16px;right:16px}
 }
 
@@ -2492,61 +2492,83 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
   var viewer = document.getElementById('skullViewer');
   if(!viewer) return;
   var inner  = document.getElementById('skullInner');
+  var bw     = viewer.querySelector('.skull-img-bw');
   var color  = viewer.querySelector('.skull-img-color');
   var hint   = document.getElementById('skullHint');
 
-  var angle = 0;
-  var isDragging = false;
-  var lastX = 0;
-  var autoRotate = true;
-  var resumeTimer = null;
-  var raf;
+  var angle     = 0;   /* degrees, drives everything */
+  var velocity  = 0.28;/* auto-rotate speed deg/frame */
+  var momentum  = 0;   /* drag momentum */
+  var isDragging= false;
+  var lastX     = 0;
+  var lastTime  = 0;
+  var autoRotate= true;
+  var resumeTimer=null;
 
-  function applyAngle(a){
-    angle = ((a % 360) + 360) % 360;
-    /* crossfade: peaks at 90° and 270° */
-    var t = (1 - Math.cos(angle * Math.PI / 180)) / 2;
+  function applyAngle(){
+    angle = ((angle % 360) + 360) % 360;
+    var rad = angle * Math.PI / 180;
+    /* crossfade: smooth sine wave 0→1→0→1 per revolution */
+    var t = (1 - Math.cos(rad)) / 2;
     color.style.opacity = t;
-    /* subtle perspective tilt */
-    var tilt = Math.sin(angle * Math.PI / 180) * 14;
-    inner.style.transform = 'perspective(900px) rotateY(' + tilt + 'deg)';
+    /* horizontal parallax shift to simulate circular movement */
+    var shift = Math.sin(rad) * 6;          /* ±6% pan */
+    var scale = 1 + Math.abs(Math.sin(rad)) * 0.04; /* subtle 0-4% zoom */
+    var skew  = Math.sin(rad) * 3;          /* ±3deg horizontal skew */
+    inner.style.transform =
+      'scaleX(' + scale + ') translateX(' + shift + '%) skewX(' + skew + 'deg)';
   }
 
   function tick(){
-    if(autoRotate){ angle += 0.35; applyAngle(angle); }
-    raf = requestAnimationFrame(tick);
+    if(autoRotate){
+      angle += velocity;
+      applyAngle();
+    } else if(Math.abs(momentum) > 0.02){
+      angle += momentum;
+      momentum *= 0.93;  /* friction */
+      applyAngle();
+    }
+    requestAnimationFrame(tick);
   }
 
   function startDrag(x){
     isDragging = true;
     autoRotate = false;
-    lastX = x;
+    momentum   = 0;
+    lastX      = x;
+    lastTime   = Date.now();
     clearTimeout(resumeTimer);
     if(hint) hint.style.opacity = '0';
     viewer.style.cursor = 'grabbing';
   }
   function moveDrag(x){
     if(!isDragging) return;
-    applyAngle(angle + (x - lastX) * 0.9);
-    lastX = x;
+    var now = Date.now();
+    var dx  = x - lastX;
+    momentum = dx * 0.7;
+    angle   += dx * 0.55;
+    applyAngle();
+    lastX    = x;
+    lastTime = now;
   }
   function endDrag(){
     if(!isDragging) return;
     isDragging = false;
     viewer.style.cursor = 'grab';
-    resumeTimer = setTimeout(function(){ autoRotate = true; }, 2500);
+    resumeTimer = setTimeout(function(){
+      momentum   = 0;
+      autoRotate = true;
+    }, 2800);
   }
 
-  viewer.addEventListener('mousedown',  function(e){ startDrag(e.clientX); });
+  viewer.addEventListener('mousedown',  function(e){ e.preventDefault(); startDrag(e.clientX); });
   document.addEventListener('mousemove',function(e){ moveDrag(e.clientX); });
   document.addEventListener('mouseup',  endDrag);
   viewer.addEventListener('touchstart', function(e){ startDrag(e.touches[0].clientX); },{passive:true});
-  document.addEventListener('touchmove',function(e){ moveDrag(e.touches[0].clientX); },{passive:true});
+  document.addEventListener('touchmove',function(e){ if(isDragging) moveDrag(e.touches[0].clientX); },{passive:true});
   document.addEventListener('touchend', endDrag);
 
-  /* fade hint after 4s */
   setTimeout(function(){ if(hint) hint.style.opacity='0'; }, 4000);
-
   tick();
 })();
 </script>
