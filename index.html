@@ -636,6 +636,100 @@ footer{
 .wpd-cta:hover svg{transform:translateX(3px)}
 
 /* ─────────────────────────────────────────
+   DIAGNOCAT
+──────────────────────────────────────────── */
+.diagnocat-section{
+  background:linear-gradient(135deg,#0d0520 0%,#1a0533 50%,#0a1a40 100%);
+  border-radius:var(--radius-xl);
+  overflow:hidden;
+  position:relative;
+  border:1px solid rgba(137,75,160,.3);
+  box-shadow:0 0 80px rgba(137,75,160,.15);
+}
+.diagnocat-section::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 50% at 80% 50%,rgba(41,98,200,.12),transparent);
+  pointer-events:none;
+}
+.diagnocat-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  min-height:480px;
+}
+.diagnocat-left{
+  padding:48px 40px 40px;
+  display:flex;flex-direction:column;justify-content:center;
+  position:relative;z-index:1;
+}
+.diagnocat-badge{
+  display:inline-flex;align-items:center;gap:10px;
+  background:rgba(137,75,160,.2);
+  border:1px solid rgba(137,75,160,.4);
+  border-radius:24px;padding:8px 16px;
+  margin-bottom:24px;align-self:flex-start;
+}
+.diagnocat-badge img{width:22px;height:22px;object-fit:contain}
+.diagnocat-badge span{font-size:13px;font-weight:700;color:var(--brand);letter-spacing:.04em}
+.diagnocat-title{
+  font-family:var(--font-head);
+  font-size:clamp(22px,3vw,32px);font-weight:800;
+  color:#fff;line-height:1.2;margin-bottom:12px;
+}
+.diagnocat-title em{
+  font-style:normal;
+  background:linear-gradient(90deg,#a67cca,#6ab4ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+.diagnocat-sub{
+  font-size:15px;line-height:1.7;color:rgba(255,255,255,.65);
+  margin-bottom:32px;
+}
+.diagnocat-features{list-style:none;display:flex;flex-direction:column;gap:14px;margin-bottom:36px}
+.diagnocat-features li{
+  display:flex;align-items:flex-start;gap:12px;
+  font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);
+}
+.diagnocat-features li::before{
+  content:'';flex-shrink:0;
+  width:20px;height:20px;border-radius:50%;
+  background:linear-gradient(135deg,var(--brand),#5b8cdb);
+  display:flex;align-items:center;justify-content:center;
+  background-image:url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:center;
+  background-color:var(--brand);
+  margin-top:2px;
+}
+.diagnocat-bot{
+  width:90px;position:absolute;bottom:24px;right:24px;
+  opacity:.85;filter:drop-shadow(0 8px 24px rgba(137,75,160,.4));
+  animation:float 3.5s ease-in-out infinite;
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.diagnocat-right{position:relative;overflow:hidden}
+.diagnocat-right img.diagnocat-photo{
+  width:100%;height:100%;object-fit:cover;object-position:center;
+  display:block;
+}
+.diagnocat-scull-strip{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+  border-top:1px solid rgba(137,75,160,.2);
+}
+.diagnocat-scull-strip img{
+  width:100%;height:200px;object-fit:cover;
+  display:block;filter:brightness(.9);
+  transition:filter .3s;
+}
+.diagnocat-scull-strip img:hover{filter:brightness(1.05)}
+.diagnocat-scull-strip img:first-child{border-right:1px solid rgba(137,75,160,.2)}
+@media(max-width:768px){
+  .diagnocat-inner{grid-template-columns:1fr}
+  .diagnocat-right{height:260px}
+  .diagnocat-left{padding:32px 24px 100px}
+  .diagnocat-scull-strip img{height:140px}
+  .diagnocat-bot{width:70px;bottom:16px;right:16px}
+}
+
+/* ─────────────────────────────────────────
    RESPONSIVE  (mobile-first — ui-ux-pro-max)
 ──────────────────────────────────────────── */
 @media(max-width:768px){
@@ -886,6 +980,40 @@ footer{
       <div class="tech-icon" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20h20"/><path d="m4 20 2-10 6 6 6-6 2 10"/><circle cx="12" cy="6" r="2"/></svg></div>
       <h3>VIP-обслуживание</h3>
       <p>Отдельное расписание, приоритетная запись и персональное ведение от первого визита до результата.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ DIAGNOCAT ══ -->
+<section class="section" id="diagnocat" aria-labelledby="diagnocat-h">
+  <p class="section-eyebrow">Новые технологии</p>
+  <h2 id="diagnocat-h">В нашей клинике появился Diagnocat</h2>
+  <p class="section-desc">Искусственный интеллект, который помогает врачу видеть то, что недоступно глазу.</p>
+
+  <div class="diagnocat-section">
+    <div class="diagnocat-inner">
+      <div class="diagnocat-left">
+        <div class="diagnocat-badge">
+          <img src="img/diagnocat-bot.webp" alt="Diagnocat AI">
+          <span>Diagnocat — ИИ-диагностика</span>
+        </div>
+        <h3 class="diagnocat-title">Диагностика нового поколения —<br><em>искусственный интеллект</em><br>в нашей клинике</h3>
+        <p class="diagnocat-sub">Теперь в Эстетика Дентал работает Diagnocat — умная технология, которая помогает врачам видеть даже скрытые проблемы и делать диагностику точнее. Вы получаете понятный отчёт и подробное объяснение от врача.</p>
+        <ul class="diagnocat-features">
+          <li>Анализирует снимки и выявляет скрытые патологии до появления боли</li>
+          <li>Помогает врачу составить подробный отчёт с рекомендациями</li>
+          <li>Меньше стресса — больше уверенности и понимания на каждом этапе</li>
+          <li>Прозрачность: всё видно на экране, ничего не скрыто</li>
+        </ul>
+        <img class="diagnocat-bot" src="img/diagnocat-bot.webp" alt="Diagnocat AI-робот" aria-hidden="true">
+      </div>
+      <div class="diagnocat-right">
+        <img class="diagnocat-photo" src="img/diagnocat-promo-1.jpg" alt="Врач объясняет пациенту результаты диагностики Diagnocat" loading="lazy">
+      </div>
+    </div>
+    <div class="diagnocat-scull-strip">
+      <img src="img/diagnocat-scull-bw.jpg" alt="3D-визуализация челюсти — нейтральный режим Diagnocat" loading="lazy">
+      <img src="img/diagnocat-scull.jpg" alt="3D-визуализация челюсти с выделением патологий — Diagnocat ИИ" loading="lazy">
     </div>
   </div>
 </section>
