@@ -709,23 +709,45 @@ footer{
   width:100%;height:100%;object-fit:cover;object-position:96% top;
   display:block;border-radius:0;
 }
-.diagnocat-scull-strip{
-  display:grid;grid-template-columns:1fr 1fr;
-  gap:0;
-  border-top:1px solid rgba(137,75,160,.2);
+.skull-viewer{
+  position:relative;
+  border-top:1px solid rgba(137,75,160,.25);
+  height:240px;
+  cursor:grab;
+  user-select:none;
+  overflow:hidden;
+  background:#000;
 }
-.diagnocat-scull-strip img{
-  width:100%;height:200px;object-fit:cover;
-  display:block;filter:brightness(.9);
-  transition:filter .3s;
+.skull-viewer:active{cursor:grabbing}
+.skull-inner-wrap{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  will-change:transform;
 }
-.diagnocat-scull-strip img:hover{filter:brightness(1.05)}
-.diagnocat-scull-strip img:first-child{border-right:1px solid rgba(137,75,160,.2)}
+.skull-img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center 30%;
+  display:block;
+  pointer-events:none;
+}
+.skull-img-color{opacity:0;transition:opacity 0s}
+.skull-hint{
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  background:rgba(0,0,0,.55);
+  color:rgba(255,255,255,.7);
+  font-size:12px;letter-spacing:.06em;
+  padding:5px 14px;border-radius:20px;
+  display:flex;align-items:center;gap:7px;
+  pointer-events:none;
+  transition:opacity .4s;
+}
+.skull-hint svg{opacity:.7}
 @media(max-width:768px){
   .diagnocat-inner{grid-template-columns:1fr}
   .diagnocat-right{height:260px}
   .diagnocat-left{padding:32px 24px 100px}
-  .diagnocat-scull-strip img{height:140px}
+  .skull-viewer{height:170px}
   .diagnocat-bot{width:70px;bottom:16px;right:16px}
 }
 
@@ -1011,9 +1033,15 @@ footer{
         <img class="diagnocat-photo" src="img/diagnocat-clinic.png" alt="Врач показывает пациенту снимок в системе Diagnocat" loading="lazy">
       </div>
     </div>
-    <div class="diagnocat-scull-strip">
-      <img src="img/diagnocat-scull-bw.jpg" alt="3D-визуализация челюсти — нейтральный режим Diagnocat" loading="lazy">
-      <img src="img/diagnocat-scull.jpg" alt="3D-визуализация челюсти с выделением патологий — Diagnocat ИИ" loading="lazy">
+    <div class="skull-viewer" id="skullViewer">
+      <div class="skull-inner-wrap" id="skullInner">
+        <img class="skull-img skull-img-bw" src="img/diagnocat-scull-bw.jpg" alt="3D-визуализация челюсти" loading="lazy">
+        <img class="skull-img skull-img-color" src="img/diagnocat-scull.jpg" alt="3D-анализ Diagnocat с выделением патологий" loading="lazy">
+      </div>
+      <div class="skull-hint" id="skullHint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M9 5l3-3 3 3"/><path d="M15 19l-3 3-3-3"/><path d="M19 9l3 3-3 3"/><path d="M2 12h20"/><path d="M12 2v20"/></svg>
+        Потяните чтобы покрутить
+      </div>
     </div>
   </div>
 </section>
@@ -2456,6 +2484,70 @@ document.querySelectorAll('.tech-card, .rc').forEach(el => obs.observe(el));
     requestAnimationFrame(draw);
   }
   draw();
+})();
+</script>
+<script>
+/* ── Skull Interactive Viewer ── */
+(function(){
+  var viewer = document.getElementById('skullViewer');
+  if(!viewer) return;
+  var inner  = document.getElementById('skullInner');
+  var color  = viewer.querySelector('.skull-img-color');
+  var hint   = document.getElementById('skullHint');
+
+  var angle = 0;
+  var isDragging = false;
+  var lastX = 0;
+  var autoRotate = true;
+  var resumeTimer = null;
+  var raf;
+
+  function applyAngle(a){
+    angle = ((a % 360) + 360) % 360;
+    /* crossfade: peaks at 90° and 270° */
+    var t = (1 - Math.cos(angle * Math.PI / 180)) / 2;
+    color.style.opacity = t;
+    /* subtle perspective tilt */
+    var tilt = Math.sin(angle * Math.PI / 180) * 14;
+    inner.style.transform = 'perspective(900px) rotateY(' + tilt + 'deg)';
+  }
+
+  function tick(){
+    if(autoRotate){ angle += 0.35; applyAngle(angle); }
+    raf = requestAnimationFrame(tick);
+  }
+
+  function startDrag(x){
+    isDragging = true;
+    autoRotate = false;
+    lastX = x;
+    clearTimeout(resumeTimer);
+    if(hint) hint.style.opacity = '0';
+    viewer.style.cursor = 'grabbing';
+  }
+  function moveDrag(x){
+    if(!isDragging) return;
+    applyAngle(angle + (x - lastX) * 0.9);
+    lastX = x;
+  }
+  function endDrag(){
+    if(!isDragging) return;
+    isDragging = false;
+    viewer.style.cursor = 'grab';
+    resumeTimer = setTimeout(function(){ autoRotate = true; }, 2500);
+  }
+
+  viewer.addEventListener('mousedown',  function(e){ startDrag(e.clientX); });
+  document.addEventListener('mousemove',function(e){ moveDrag(e.clientX); });
+  document.addEventListener('mouseup',  endDrag);
+  viewer.addEventListener('touchstart', function(e){ startDrag(e.touches[0].clientX); },{passive:true});
+  document.addEventListener('touchmove',function(e){ moveDrag(e.touches[0].clientX); },{passive:true});
+  document.addEventListener('touchend', endDrag);
+
+  /* fade hint after 4s */
+  setTimeout(function(){ if(hint) hint.style.opacity='0'; }, 4000);
+
+  tick();
 })();
 </script>
 </body>
